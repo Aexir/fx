@@ -17,6 +17,8 @@ public class SqlManager {
         configuration.addAnnotatedClass(Location.class);
         configuration.addAnnotatedClass(Busstop.class);
         configuration.addAnnotatedClass(ZtmRide.class);
+        configuration.addAnnotatedClass(Notification.class);
+
 
         sessionFactory = configuration.buildSessionFactory();
     }
@@ -51,6 +53,20 @@ public class SqlManager {
         return sessionFactory.openSession().createQuery("From Busstop", Busstop.class).list();
     }
 
+    public void removeObject(Object obj){
+        Transaction tx = null;
+        Session session = sessionFactory.openSession();
+        try {
+            tx = session.beginTransaction();
+            session.remove(obj);
+            tx.commit();
+        } catch (Exception e){
+            if (tx != null) tx.rollback();
+            e.printStackTrace();
+        } finally {
+            session.close();
+        }
+    }
 
     public void saveObject(Object obj) {
         Transaction tx = null;

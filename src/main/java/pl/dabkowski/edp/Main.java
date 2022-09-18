@@ -6,8 +6,10 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import lombok.Getter;
+import org.greenrobot.eventbus.EventBus;
 import pl.dabkowski.edp.api.UmAPI;
 import pl.dabkowski.edp.controllers.MainSceneController;
+import pl.dabkowski.edp.listeners.NotificationListener;
 import pl.dabkowski.edp.utils.Config;
 import pl.dabkowski.edp.utils.JsonUtils;
 
@@ -53,6 +55,8 @@ public class Main extends Application {
 
 
     public static void main(String[] args) {
+        EventBus eventBus = EventBus.getDefault();
+        eventBus.register(new NotificationListener());
         launch();
     }
 }

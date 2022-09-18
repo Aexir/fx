@@ -8,6 +8,7 @@ module pl.aexir.edp {
     requires com.google.gson;
     requires jakarta.persistence;
     requires org.hibernate.orm.core;
+    requires eventbus.java;
 
     opens pl.dabkowski.edp to javafx.fxml;
     exports pl.dabkowski.edp;
@@ -17,5 +18,6 @@ module pl.aexir.edp {
     opens pl.dabkowski.edp.utils to javafx.fxml;
     opens pl.dabkowski.edp.database.entities to org.hibernate.orm.core;
     exports pl.dabkowski.edp.database.entities;
+    opens pl.dabkowski.edp.listeners to eventbus.java;
 
 }

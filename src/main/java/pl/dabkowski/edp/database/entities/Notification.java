@@ -3,6 +3,7 @@ package pl.dabkowski.edp.database.entities;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.Singular;
 
 import java.sql.Time;
 
