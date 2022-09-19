@@ -1,7 +1,6 @@
 package pl.dabkowski.edp.controllers;
 
 import javafx.application.Platform;
-import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
@@ -12,7 +11,6 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
-import lombok.Getter;
 import pl.dabkowski.edp.Main;
 import pl.dabkowski.edp.api.UmAPI;
 import pl.dabkowski.edp.database.SqlManager;
@@ -27,7 +25,7 @@ public class BusstopListForStreetController implements Initializable {
     public ScrollPane scrollPane;
     public VBox vBox;
 
-   public String  streetName;
+    public String streetName;
 
     public BusstopListForStreetController(String streetName) {
         this.streetName = streetName;
@@ -37,7 +35,7 @@ public class BusstopListForStreetController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         List<Busstop> busstopsForStreet = SqlManager.getInst().selectQuery(streetName);
-        for (Busstop busstop : busstopsForStreet){
+        for (Busstop busstop : busstopsForStreet) {
             Button button = new Button();
             VBox vbox = new VBox();
             vbox.setAlignment(Pos.CENTER);
@@ -45,7 +43,7 @@ public class BusstopListForStreetController implements Initializable {
             button.setMinWidth(280);
             button.setContentDisplay(ContentDisplay.CENTER);
 
-            new Thread(()->{
+            new Thread(() -> {
                 List<String> busList = UmAPI.getInstance().getLinesForStop(busstop.getStop_id(), busstop.getStop_nr());
 
                 button.setOnMouseClicked(mouseEvent -> {
@@ -54,7 +52,7 @@ public class BusstopListForStreetController implements Initializable {
                     LinesFromBusstopController controller = new LinesFromBusstopController(busList, streetName, busstop.getStop_id(), busstop.getStop_nr());
                     fxmlLoader.setController(controller);
                     Stage infoStage = StreetListController.getInfoStage();
-                    infoStage.setTitle("Linie odjeżdżające z " + streetName  + " (" + busstop.getStop_nr() + ")");
+                    infoStage.setTitle("Linie odjeżdżające z " + streetName + " (" + busstop.getStop_nr() + ")");
                     try {
                         infoStage.setScene(new Scene(fxmlLoader.load()));
                     } catch (IOException e) {
@@ -63,15 +61,12 @@ public class BusstopListForStreetController implements Initializable {
                 });
 
 
-                Platform.runLater(()->{
+                Platform.runLater(() -> {
                     vbox.getChildren().add(new Text(busstop.getStreet() + " (" + busstop.getStop_nr() + ")"));
                     vbox.getChildren().add(new Text(busList.toString()));
                     button.setGraphic(vbox);
                     vBox.getChildren().add(button);
                 });
-
-
-
 
 
             }).start();

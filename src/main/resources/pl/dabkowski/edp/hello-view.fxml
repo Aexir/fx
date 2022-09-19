@@ -1,99 +1,82 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.layout.VBox?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.layout.BorderPane?>
-<?import javafx.scene.layout.Pane?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.image.ImageView?>
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.text.Text?>
-<?import javafx.scene.text.Font?>
-<BorderPane xmlns:fx="http://javafx.com/fxml/1" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
-            minWidth="-Infinity"
-            prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #505050;"
-            xmlns="http://javafx.com/javafx/11.0.2"
-            fx:controller="pl.dabkowski.edp.controllers.MainSceneController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #505050;" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pl.dabkowski.edp.controllers.MainSceneController">
     <right>
-        <Pane prefHeight="155.0" prefWidth="150.0" BorderPane.alignment="CENTER"/>
+        <Pane prefHeight="155.0" prefWidth="150.0" BorderPane.alignment="CENTER" />
     </right>
     <left>
-        <Pane prefHeight="225.0" prefWidth="150.0" styleClass="box" BorderPane.alignment="CENTER"/>
+        <Pane prefHeight="225.0" prefWidth="150.0" styleClass="box" BorderPane.alignment="CENTER" />
     </left>
     <center>
-        <VBox alignment="CENTER" prefHeight="284.0" prefWidth="300.0" style="-fx-background-color: #282828;"
-              BorderPane.alignment="CENTER">
+        <VBox alignment="CENTER" prefHeight="284.0" prefWidth="300.0" style="-fx-background-color: #282828;" BorderPane.alignment="CENTER">
             <BorderPane.margin>
-                <Insets/>
+                <Insets />
             </BorderPane.margin>
             <HBox alignment="CENTER" prefHeight="0.0" prefWidth="300.0" style="-fx-background-color: #2137;">
-                <ImageView disable="true" fitHeight="64.0" fitWidth="62.0" pickOnBounds="true" preserveRatio="true">
-                    <Image url="@images/logo.png"/>
+                <ImageView fx:id="notificationIcon" fitHeight="64.0" fitWidth="62.0" onMouseClicked="#onIconClick" pickOnBounds="true" preserveRatio="true">
+                    <Image url="@images/logo.png" />
                 </ImageView>
-                <Text disable="true" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Warszawa"
-                      textAlignment="JUSTIFY" wrappingWidth="107.98307228088379">
+                <Text disable="true" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Warszawa" textAlignment="JUSTIFY" wrappingWidth="107.98307228088379">
                     <font>
-                        <Font name="Arial" size="23.0"/>
+                        <Font name="Arial" size="23.0" />
                     </font>
                     <HBox.margin>
-                        <Insets right="40.0"/>
+                        <Insets right="40.0" />
                     </HBox.margin>
                 </Text>
-                <Button fx:id="refreshButton" onMouseClicked="#onRefreshButtonClick" mnemonicParsing="false">
+                <Button fx:id="refreshButton" mnemonicParsing="false" onMouseClicked="#onRefreshButtonClick">
                     <graphic>
                         <ImageView fitHeight="39.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
-                            <Image url="@images/refresh.png"/>
+                            <Image url="@images/refresh.png" />
                         </ImageView>
                     </graphic>
                 </Button>
                 <VBox.margin>
-                    <Insets bottom="30.0"/>
+                    <Insets bottom="30.0" />
                 </VBox.margin>
             </HBox>
-            <Button fx:id="busstopScheduleButton" alignment="TOP_LEFT" maxWidth="1.7976931348623157E308"
-                    mnemonicParsing="false" onMouseClicked="#onBusstopScheduleClick" prefWidth="200.0"
-                    text="Rozkład przystanku" VBox.vgrow="ALWAYS">
+            <Button fx:id="busstopScheduleButton" alignment="TOP_LEFT" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onMouseClicked="#onBusstopScheduleClick" prefWidth="200.0" text="Rozkład przystanku" VBox.vgrow="ALWAYS">
                 <VBox.margin>
-                    <Insets left="50.0" right="50.0"/>
+                    <Insets left="50.0" right="50.0" />
                 </VBox.margin>
                 <graphic>
                     <ImageView disable="true" fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
-                        <Image url="@images/clock.png"/>
+                        <Image url="@images/clock.png" />
                     </ImageView>
                 </graphic>
             </Button>
-            <Button id="LineScheduleButton" fx:id="lineScheduleButton" alignment="TOP_LEFT"
-                    maxWidth="1.7976931348623157E308" mnemonicParsing="false" onMouseClicked="#onMouseClick"
-                    prefWidth="200.0" text="Rozkład linii" VBox.vgrow="ALWAYS">
+            <Button id="LineScheduleButton" fx:id="lineScheduleButton" alignment="TOP_LEFT" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onMouseClicked="#onMouseClick" prefWidth="200.0" text="Rozkład linii" VBox.vgrow="ALWAYS">
                 <VBox.margin>
-                    <Insets left="50.0" right="50.0" top="20.0"/>
+                    <Insets left="50.0" right="50.0" top="20.0" />
                 </VBox.margin>
                 <graphic>
                     <ImageView disable="true" fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
-                        <Image url="@images/bus.png"/>
+                        <Image url="@images/bus.png" />
                     </ImageView>
                 </graphic>
             </Button>
-            <Button fx:id="mapButton" alignment="TOP_LEFT" maxWidth="1.7976931348623157E308" mnemonicParsing="false"
-                    onMouseClicked="#onMapButtonClick" text="Mapa" VBox.vgrow="ALWAYS">
+            <Button fx:id="mapButton" alignment="TOP_LEFT" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onMouseClicked="#onMapButtonClick" text="Mapa" VBox.vgrow="ALWAYS">
                 <VBox.margin>
-                    <Insets left="50.0" right="50.0" top="20.0"/>
+                    <Insets left="50.0" right="50.0" top="20.0" />
                 </VBox.margin>
                 <graphic>
                     <ImageView disable="true" fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
-                        <Image url="@images/map.png"/>
+                        <Image url="@images/map.png" />
                     </ImageView>
                 </graphic>
             </Button>
         </VBox>
     </center>
     <bottom>
-        <Pane prefHeight="30.0" prefWidth="600.0" BorderPane.alignment="CENTER"/>
+        <Pane prefHeight="30.0" prefWidth="600.0" BorderPane.alignment="CENTER" />
     </bottom>
     <top>
-        <Pane prefHeight="30.0" prefWidth="600.0" BorderPane.alignment="CENTER"/>
+        <Pane prefHeight="30.0" prefWidth="600.0" BorderPane.alignment="CENTER" />
     </top>
 </BorderPane>

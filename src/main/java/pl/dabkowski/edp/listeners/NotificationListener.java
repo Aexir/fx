@@ -14,12 +14,12 @@ import pl.dabkowski.edp.database.entities.Notification;
 public class NotificationListener {
 
 
-    public static void display() {
+    public static void display(Notification notification) {
         Stage popupwindow = new Stage();
         popupwindow.initModality(Modality.APPLICATION_MODAL);
-        popupwindow.setTitle("This is a pop up window");
-        Label label1 = new Label("Pop up window now displayed");
-        Button button1 = new Button("Close this pop up window");
+        popupwindow.setTitle("Przypomnienie");
+        Label label1 = new Label("Twoj autobus " + notification.getLine() + " odjedzie o " + notification.getDeparture());
+        Button button1 = new Button("Zamknij");
         button1.setOnAction(e -> popupwindow.close());
         VBox layout = new VBox(10);
         layout.getChildren().addAll(label1, button1);
@@ -31,8 +31,8 @@ public class NotificationListener {
 
     @Subscribe
     public void receivedEvent(Notification notification) {
-        Platform.runLater(()->{
-            display();
+        Platform.runLater(() -> {
+            display(notification);
         });
     }
 

@@ -17,16 +17,6 @@ import java.util.List;
 public class ZtmRide {
 
     private static ArrayList<ZtmRide> departures = new ArrayList<>();
-
-    public static void addDepartureToList(ZtmRide ztmRide){
-        departures.add(ztmRide);
-    }
-
-    public static List<ZtmRide> getDepartures(){
-        return new ArrayList<>(departures);
-    }
-
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
@@ -37,5 +27,13 @@ public class ZtmRide {
     private String direction;
     private String path;
     private Time time;
+
+    public static void addDepartureToList(ZtmRide ztmRide) {
+        departures.add(ztmRide);
+    }
+
+    public static List<ZtmRide> getDepartures() {
+        return new ArrayList<>(departures);
+    }
 
 }

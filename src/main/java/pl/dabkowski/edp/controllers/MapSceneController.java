@@ -4,7 +4,6 @@ import javafx.application.Platform;
 import javafx.concurrent.Worker;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
@@ -30,9 +29,9 @@ public class MapSceneController implements Initializable {
                 mapView.setZoom(1);
                 final URL urlGoogleMaps = Main.class.getResource("mapa.html");
                 webEngine.load(urlGoogleMaps.toExternalForm());
-                System.out.println((System.currentTimeMillis())- start);
+                System.out.println((System.currentTimeMillis()) - start);
                 webEngine.getLoadWorker().stateProperty().addListener(((obs, oldState, newState) -> {
-                    if (newState == Worker.State.SUCCEEDED){
+                    if (newState == Worker.State.SUCCEEDED) {
                         for (int i = 0; i < Busstop.getBusstops().size(); i++) {
                             webEngine.executeScript("test(long, lat)".replace("long",
                                             String.valueOf(Busstop.getBusstops().get(i).getLocation().getLongitude()))

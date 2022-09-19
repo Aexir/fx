@@ -3,7 +3,6 @@ package pl.dabkowski.edp.controllers;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
@@ -24,10 +23,9 @@ import java.util.TreeSet;
 
 public class StreetListController implements Initializable {
 
-    private final Set<String> busstopStreetNames = new TreeSet<>();
-
     @Getter
     private static Stage infoStage;
+    private final Set<String> busstopStreetNames = new TreeSet<>();
     public Button backButton;
     public TextField searchInput;
     public Button searchButton;
@@ -36,11 +34,11 @@ public class StreetListController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        new Thread(()->{
-            for (Busstop busstop: UmAPI.getInstance().getAllStopsFromDatabase()){
+        new Thread(() -> {
+            for (Busstop busstop : UmAPI.getInstance().getAllStopsFromDatabase()) {
                 busstopStreetNames.add(busstop.getStreet());
             }
-            Platform.runLater(()-> listView.getItems().addAll(busstopStreetNames));
+            Platform.runLater(() -> listView.getItems().addAll(busstopStreetNames));
         }).start();
     }
 

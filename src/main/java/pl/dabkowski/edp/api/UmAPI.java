@@ -15,7 +15,9 @@ import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.sql.Time;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class UmAPI implements UmApiInterface {
 
@@ -38,11 +40,11 @@ public class UmAPI implements UmApiInterface {
         final String URL_ALL_STOPS = Config.getInstance().getProperty("ALL_STOPS_URL").replace("{%apiKey%}", apiKey);
         try {
             JsonArray jsonArray = JsonUtils.getJsonObjectFromURL(URL_ALL_STOPS).getAsJsonArray("result");
-            for (int i = 0; i < jsonArray.size(); i++){
+            for (int i = 0; i < jsonArray.size(); i++) {
                 JsonObject object = jsonArray.get(i).getAsJsonObject();
                 JsonArray array = object.getAsJsonArray("values");
                 List<String> stringList = new ArrayList<>();
-                for (int j = 0; j < array.size(); j++){
+                for (int j = 0; j < array.size(); j++) {
                     stringList.add(array.get(j).getAsJsonObject().get("value").getAsString());
                 }
                 Busstop busstop = new Busstop();
@@ -57,8 +59,12 @@ public class UmAPI implements UmApiInterface {
                 } catch (LocationException e) {
                     e.printStackTrace();
                 }
-                Busstop.addBusstopToList(busstop);
-                SqlManager.getInst().saveObject(busstop);
+                if (!busstop.getStreet_id().contains("null")){
+                    Busstop.addBusstopToList(busstop);
+                    SqlManager.getInst().saveObject(busstop);
+                }
+
+
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -84,13 +90,14 @@ public class UmAPI implements UmApiInterface {
     @Override
     public List<Busstop> getAllStops() {
         final String URL_ALL_STOPS = Config.getInstance().getProperty("ALL_STOPS_URL").replace("{%apiKey%}", apiKey);
+        System.out.println(URL_ALL_STOPS);
         List<Busstop> stops = new ArrayList<>();
         try {
             JsonArray jsonArray = JsonUtils.getJsonObjectFromURL(URL_ALL_STOPS).getAsJsonArray("result");
-            for (int i = 0; i < jsonArray.size(); i++){
+            for (int i = 0; i < jsonArray.size(); i++) {
                 JsonArray array = jsonArray.get(i).getAsJsonObject().getAsJsonArray("values");
                 List<String> stringList = new ArrayList<>();
-                for (int j = 0; j < array.size(); j++){
+                for (int j = 0; j < array.size(); j++) {
                     stringList.add(array.get(j).getAsJsonObject().get("value").getAsString());
                 }
                 Busstop busstop = new Busstop();
@@ -101,11 +108,12 @@ public class UmAPI implements UmApiInterface {
                     busstop.setStop_id(stringList.get(0));
                     busstop.setStop_nr(stringList.get(1));
                     busstop.setDirection(stringList.get(6));
-
                 } catch (LocationException e) {
                     e.printStackTrace();
                 }
-                stops.add(busstop);
+                if (!busstop.getStreet_id().contains("null")){
+                    stops.add(busstop);
+                }
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -120,11 +128,11 @@ public class UmAPI implements UmApiInterface {
 
     @Override
     public List<String> getLinesForStop(String stopId, String stopNr) {
-        final String ALL_LINES = Config.getInstance().getProperty("ALL_LINES_FROM_BUSSTOP_URL").replace("{%apiKey%}", apiKey).replace("{%stopId%}",stopId).replace("{%stopNr%}",stopNr);
+        final String ALL_LINES = Config.getInstance().getProperty("ALL_LINES_FROM_BUSSTOP_URL").replace("{%apiKey%}", apiKey).replace("{%stopId%}", stopId).replace("{%stopNr%}", stopNr);
         List<String> lines = new ArrayList<>();
         try {
             JsonArray jsonArray = JsonUtils.getJsonObjectFromURL(ALL_LINES).getAsJsonArray("result");
-            for (int i = 0; i < jsonArray.size(); i++){
+            for (int i = 0; i < jsonArray.size(); i++) {
                 lines.add(jsonArray.get(i).getAsJsonObject().getAsJsonArray("values").get(0).getAsJsonObject().get("value").getAsString());
             }
         } catch (IOException e) {
@@ -134,27 +142,64 @@ public class UmAPI implements UmApiInterface {
     }
 
     @Override
-    public void loadLineScheduleForBusstop(String stopId, String stopNr, String line) {
-        final String DEPARTURES_URL = Config.getInstance().getProperty("LINE_DEPARTURES_FROM_BUSSTOP_URL")
-                .replace("{%apiKey%}", apiKey).replace("{%stopId%}",stopId)
-                .replace("{%stopNr%}",stopNr).replace("{%line%}", line);
-        List<ZtmRide> departures = new ArrayList<>();
+    public List<String> getAllBusLines() {
+        final String ALL_BUS_LINES = Config.getInstance().getProperty("ALL_BUSES_URL").replace("{%apiKey%}", apiKey);
+        Set<String> buses = new HashSet<>();
         try {
-            JsonArray jsonArray = JsonUtils.getJsonObjectFromURL(DEPARTURES_URL).getAsJsonArray("result");
-            for (int i = 0; i < jsonArray.size(); i++){
-                ZtmRide ztmRide = new ZtmRide();
-                ztmRide.setLine(line);
-                ztmRide.setSymbol_1(jsonArray.get(i).getAsJsonObject().getAsJsonArray("values").get(0).getAsJsonObject().get("value").getAsString());
-                ztmRide.setSymbol_2(jsonArray.get(i).getAsJsonObject().getAsJsonArray("values").get(1).getAsJsonObject().get("value").getAsString());
-                ztmRide.setBrigade(jsonArray.get(i).getAsJsonObject().getAsJsonArray("values").get(2).getAsJsonObject().get("value").getAsString());
-                ztmRide.setDirection(jsonArray.get(i).getAsJsonObject().getAsJsonArray("values").get(3).getAsJsonObject().get("value").getAsString());
-                ztmRide.setPath(jsonArray.get(i).getAsJsonObject().getAsJsonArray("values").get(4).getAsJsonObject().get("value").getAsString());
-                ztmRide.setTime(Time.valueOf(jsonArray.get(i).getAsJsonObject().getAsJsonArray("values").get(5).getAsJsonObject().get("value").getAsString()));
-
-                ZtmRide.addDepartureToList(ztmRide);
+            JsonArray jsonArray = JsonUtils.getJsonObjectFromURL(ALL_BUS_LINES).getAsJsonArray("result");
+            for (int i = 0; i < jsonArray.size(); i++) {
+                JsonObject jsonObject = jsonArray.get(i).getAsJsonObject();
+                buses.add(jsonObject.get("Lines").getAsString());
             }
-        } catch (IOException e) {
-            e.printStackTrace();
+            } catch(IOException e){
+                e.printStackTrace();
+            }
+            return buses.stream().toList();
+        }
+
+        @Override
+        public List<String> getAllTramLines () {
+            final String ALL_TRAM_LINES = Config.getInstance().getProperty("ALL_TRAMS_URL").replace("{%apiKey%}", apiKey);
+            Set<String> trams = new HashSet<>();
+            try {
+                JsonArray jsonArray = JsonUtils.getJsonObjectFromURL(ALL_TRAM_LINES).getAsJsonArray("result");
+                for (int i = 0; i < jsonArray.size(); i++) {
+                    JsonObject jsonObject = jsonArray.get(i).getAsJsonObject();
+                    trams.add(jsonObject.get("Lines").getAsString());
+                }
+            } catch(IOException e){
+                e.printStackTrace();
+            }
+            return trams.stream().toList();
+        }
+
+    @Override
+    public String getNameFromId(String id, String nr) {
+        return SqlManager.getInst().getNameFromId(id, nr);
+    }
+
+    @Override
+        public void loadLineScheduleForBusstop (String stopId, String stopNr, String line){
+            final String DEPARTURES_URL = Config.getInstance().getProperty("LINE_DEPARTURES_FROM_BUSSTOP_URL")
+                    .replace("{%apiKey%}", apiKey).replace("{%stopId%}", stopId)
+                    .replace("{%stopNr%}", stopNr).replace("{%line%}", line);
+            List<ZtmRide> departures = new ArrayList<>();
+            try {
+                JsonArray jsonArray = JsonUtils.getJsonObjectFromURL(DEPARTURES_URL).getAsJsonArray("result");
+                for (int i = 0; i < jsonArray.size(); i++) {
+                    ZtmRide ztmRide = new ZtmRide();
+                    ztmRide.setLine(line);
+                    ztmRide.setSymbol_1(jsonArray.get(i).getAsJsonObject().getAsJsonArray("values").get(0).getAsJsonObject().get("value").getAsString());
+                    ztmRide.setSymbol_2(jsonArray.get(i).getAsJsonObject().getAsJsonArray("values").get(1).getAsJsonObject().get("value").getAsString());
+                    ztmRide.setBrigade(jsonArray.get(i).getAsJsonObject().getAsJsonArray("values").get(2).getAsJsonObject().get("value").getAsString());
+                    ztmRide.setDirection(jsonArray.get(i).getAsJsonObject().getAsJsonArray("values").get(3).getAsJsonObject().get("value").getAsString());
+                    ztmRide.setPath(jsonArray.get(i).getAsJsonObject().getAsJsonArray("values").get(4).getAsJsonObject().get("value").getAsString());
+                    ztmRide.setTime(Time.valueOf(jsonArray.get(i).getAsJsonObject().getAsJsonArray("values").get(5).getAsJsonObject().get("value").getAsString()));
+
+                    ZtmRide.addDepartureToList(ztmRide);
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
-}

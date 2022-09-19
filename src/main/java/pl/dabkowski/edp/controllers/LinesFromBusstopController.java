@@ -7,8 +7,6 @@ import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
-import javafx.scene.control.TextField;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
@@ -24,13 +22,13 @@ public class LinesFromBusstopController implements Initializable {
 
     public static Stage scheduleStage;
     public ScrollPane scrollPane;
-    private List<String> lines;
-    private String streetName;
-    private String stopId;
-    private String stopNr;
+    private final List<String> lines;
+    private final String streetName;
+    private final String stopId;
+    private final String stopNr;
 
 
-    public LinesFromBusstopController(List<String> lines, String streetName, String stopId, String stopNr){
+    public LinesFromBusstopController(List<String> lines, String streetName, String stopId, String stopNr) {
         this.lines = lines;
         this.streetName = streetName;
         this.stopId = stopId;
@@ -47,7 +45,7 @@ public class LinesFromBusstopController implements Initializable {
         VBox vBox = new VBox();
         vBox.setAlignment(Pos.CENTER);
         scrollPane.setContent(vBox);
-        if (list.size() == 0){
+        if (list.size() == 0) {
             vBox.getChildren().add(new Text("BRAK LINII DLA DANEGO PRZYSTANKU"));
             return;
         }
@@ -62,7 +60,7 @@ public class LinesFromBusstopController implements Initializable {
                 ScheduleForLineFromBusstopController controller = new ScheduleForLineFromBusstopController(b.getText(), streetName, stopId, stopNr);
                 fxmlLoader.setController(controller);
                 scheduleStage = new Stage();
-                scheduleStage.setTitle("Lista odjazdow " + b.getText() + " z " + streetName  + " (" + stopNr + ")");
+                scheduleStage.setTitle("Lista odjazdow " + b.getText() + " z " + streetName + " (" + stopNr + ")");
                 try {
                     scheduleStage.setScene(new Scene(fxmlLoader.load()));
                     scheduleStage.show();
