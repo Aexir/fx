@@ -1,0 +1,20 @@
+.customButton {
+    -fx-background-color: #fff;
+    -fx-border-width: 2px;
+    -fx-border-color:  #000;
+    -fx-border-style: solid;
+    -fx-fill: #ffffff;
+    -fx-font-family: Inter,sans-serif;
+    -fx-font-size: 16px;
+    -fx-font-weight: 600;
+    -fx-min-height: 48px;
+    -fx-min-width: 50px;
+    -fx-padding: 0 17px;
+    -fx-text-alignment: center;
+}
+
+.customButton:hover {
+    -fx-border-color: #06f;
+    -fx-color-label-visible: #06f;
+    -fx-fill: #06f;
+}

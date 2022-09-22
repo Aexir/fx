@@ -12,6 +12,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import pl.dabkowski.edp.Main;
+import pl.dabkowski.edp.gui.CustomButton;
 
 import java.io.IOException;
 import java.net.URL;
@@ -53,7 +54,7 @@ public class LinesFromBusstopController implements Initializable {
         int iterator = 0;
         HBox hBox = null;
         while (iterator != list.size()) {
-            Button b = new Button(list.get(iterator));
+            CustomButton b = new CustomButton(list.get(iterator));
             b.setOnMouseClicked(mouseEvent -> {
                 FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("line-from-busstop.fxml"));
                 //Parent root = fxmlLoader.load();
@@ -71,6 +72,7 @@ public class LinesFromBusstopController implements Initializable {
             b.setMinWidth(70);
             if (iterator % 3 == 0) {
                 hBox = new HBox();
+                hBox.setSpacing(5);
                 hBox.setAlignment(Pos.CENTER);
                 hBox.setPadding(new Insets(5, 5, 5, 5));
                 vBox.getChildren().add(hBox);

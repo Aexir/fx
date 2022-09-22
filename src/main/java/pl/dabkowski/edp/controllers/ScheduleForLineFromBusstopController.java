@@ -13,6 +13,7 @@ import pl.dabkowski.edp.api.UmAPI;
 import pl.dabkowski.edp.database.SqlManager;
 import pl.dabkowski.edp.database.entities.Notification;
 import pl.dabkowski.edp.database.entities.ZtmRide;
+import pl.dabkowski.edp.gui.CustomButton;
 
 import java.net.URL;
 import java.sql.Time;
@@ -83,10 +84,11 @@ public class ScheduleForLineFromBusstopController implements Initializable {
     public Button createButton(String time, ZtmRide ztmRide) {
         Button button = new Button("+" + time);
         button.setOnMouseClicked(mouseEvent -> {
-            Notification notification = new Notification();
-            notification.setLine(line);
-            notification.setDeparture(ztmRide.getTime());
-            notification.setTime(Time.valueOf(LocalTime.now().plus(Long.parseLong(time), ChronoUnit.MINUTES)));
+            Notification notification = Notification.builder()
+                    .line(line)
+                    .departure(ztmRide.getTime())
+                    .time(Time.valueOf(LocalTime.now().plus(Long.parseLong(time), ChronoUnit.MINUTES))).build();
+
             TimerTask task = new TimerTask() {
                 public void run() {
                     System.out.println("Task performed on: " + notification.getTime() + "n" +

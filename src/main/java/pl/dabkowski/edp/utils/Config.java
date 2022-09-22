@@ -26,7 +26,6 @@ public class Config {
         inputStream = getClass().getClassLoader().getResourceAsStream(fileName);
         if (inputStream == null) {
             System.out.println("Unable to open properties file " + fileName);
-
             return;
         }
         try {

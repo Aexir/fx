@@ -2,8 +2,14 @@
 
 <?import javafx.scene.control.ListView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.layout.VBox?>
 <AnchorPane xmlns:fx="http://javafx.com/fxml/1" fx:id="anchorPane" pickOnBounds="false" prefHeight="400.0"
             prefWidth="600.0" style="-fx-background-color: #505050;"
             xmlns="http://javafx.com/javafx/11.0.2">
-    <ListView fx:id="listView" prefHeight="400.0" prefWidth="600.0"/>
+    <ScrollPane fx:id="scrollPane" hbarPolicy="NEVER" layoutX="117.0" layoutY="29.0">
+        <VBox fx:id="vBox" alignment="CENTER" prefHeight="340.0" prefWidth="365.0" style="-fx-background-color: #282828;">
+        <ListView fx:id="listView" prefHeight="400.0" prefWidth="600.0"/>
+        </VBox>
+    </ScrollPane>
 </AnchorPane>

@@ -18,6 +18,7 @@ import javafx.scene.layout.VBox;
 import pl.dabkowski.edp.Main;
 import pl.dabkowski.edp.api.UmAPI;
 import pl.dabkowski.edp.database.SqlManager;
+import pl.dabkowski.edp.gui.CustomButton;
 
 import java.io.IOException;
 import java.net.URL;
@@ -85,11 +86,12 @@ public class LineScheduleController implements Initializable {
         int xd = 0;
         for (int i = 0; i < list.size() / 5; i++) {
             HBox hBox = new HBox();
+            hBox.setSpacing(3);
             hBox.setAlignment(Pos.CENTER);
             hBox.setPadding(new Insets(3, 0, 3, 0));
             vBox.getChildren().add(hBox);
             for (int j = 0; j < 5; j++) {
-                Button b = new Button(list.get(xd));
+                CustomButton b = new CustomButton(list.get(xd));
                 b.setMinWidth(70);
                 hBox.getChildren().add(b);
                 b.setOnMouseClicked(event -> {

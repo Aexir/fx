@@ -55,7 +55,6 @@ public class UmAPI implements UmApiInterface {
                     busstop.setStop_id(stringList.get(0));
                     busstop.setStop_nr(stringList.get(1));
                     busstop.setDirection(stringList.get(6));
-
                 } catch (LocationException e) {
                     e.printStackTrace();
                 }
@@ -63,8 +62,6 @@ public class UmAPI implements UmApiInterface {
                     Busstop.addBusstopToList(busstop);
                     SqlManager.getInst().saveObject(busstop);
                 }
-
-
             }
         } catch (IOException e) {
             e.printStackTrace();

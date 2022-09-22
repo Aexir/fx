@@ -29,8 +29,6 @@ public class SqlManager {
         configuration.addAnnotatedClass(Busstop.class);
         configuration.addAnnotatedClass(ZtmRide.class);
         configuration.addAnnotatedClass(Notification.class);
-
-
         sessionFactory = configuration.buildSessionFactory();
     }
 
@@ -40,14 +38,6 @@ public class SqlManager {
         }
         return inst;
     }
-
-
-//    public List<Object> selectQuery(String query){
-//        List<Object> objects;
-//        Session session = sessionFactory.openSession();
-//        objects = (List<Object>) session.createQuery(query).list();
-//        return objects;
-//    }
 
     public String getNameFromId(String id, String nr){
         Busstop b = sessionFactory.openSession().createQuery("from Busstop  b where b.stop_id = :id and b.stop_nr = :nr", Busstop.class).setParameter("id", id).setParameter("nr", nr).getSingleResult();
@@ -99,15 +89,6 @@ public class SqlManager {
         }
     }
 
-/*    public void removeOldNotifications(){
-        List<Notification> notifications = loadNotifications();
-        for (Notification notification: notifications){
-            if (notification.getTime().after(Time.valueOf(LocalTime.now().plusHours(1)))){
-                removeObject(notification);
-            }
-        }
-    }*/
-
     public void scheduleNotifications(){
         for (Notification notification : loadNotifications()){
             TimerTask task = new TimerTask() {
@@ -120,7 +101,6 @@ public class SqlManager {
             };
 
             Timer timer = new Timer("Notification");
-
             timer.schedule(task, Date.from(notification.getTime().toLocalTime().atDate(LocalDate.now()).toInstant(ZoneOffset.UTC)));
         }
     }
